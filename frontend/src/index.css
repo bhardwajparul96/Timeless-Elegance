@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.input-field {
+  @apply w-full px-3 py-2 border border-gray-300  focus:outline-none focus:ring-2 focus:ring-[#b58b50];
+}
+
+/* Add in global CSS or Tailwind config */
+/* img {
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+img:hover {
+  filter: grayscale(0%);
+} */
+
