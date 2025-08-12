@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaHeart, FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
+import { FaHeart, FaSearch, FaShoppingCart, FaUser, FaBars, FaTimes } from 'react-icons/fa';
 import logo from '../assets/logo.jpg';
 
 const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+
   const navItems = [
     { name: 'Home', path: '/' },
     { name: 'Brands', path: '/brands' },
@@ -13,18 +16,18 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="flex justify-between items-center px-5 py-2 bg-black text-white fixed top-0 w-full z-50 shadow-md">
+    <nav className="flex flex-wrap justify-between items-center px-5 py-2 bg-black text-white fixed top-0 w-full z-50 shadow-md">
       
-      {/* Left: Logo and Brand Name */}
+      {/* Left: Logo */}
       <div className="flex items-center gap-3">
         <img src={logo} alt="Timeless Elegance Logo" className="h-12 w-auto object-contain" />
-        <h1 className="text-xl font-serif font-bold tracking-widest text-white">
+        <h1 className="text-lg sm:text-xl font-serif font-bold tracking-widest text-white whitespace-nowrap">
           Timeless <span className="text-[#b58b50]">Elegance</span>
         </h1>
       </div>
 
-      {/* Middle: Navigation Links */}
-      <ul className="flex gap-5 font-medium text-sm tracking-wide">
+      {/* Desktop Nav */}
+      <ul className="hidden lg:flex gap-5 font-medium text-sm tracking-wide">
         {navItems.map((item) => (
           <li key={item.name}>
             <NavLink
@@ -32,7 +35,9 @@ const Navbar = () => {
               end
               className={({ isActive }) =>
                 `relative transition-colors duration-300 hover:text-[#b58b50] ${
-                  isActive ? 'text-[#b58b50] after:content-[""] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-full after:bg-[#b58b50]' : ''
+                  isActive
+                    ? 'text-[#b58b50] after:content-[""] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-full after:bg-[#b58b50]'
+                    : ''
                 }`
               }
             >
@@ -42,11 +47,11 @@ const Navbar = () => {
         ))}
       </ul>
 
-      {/* Right: Search, Wishlist, Cart, Login/Signup */}
+      {/* Right Icons */}
       <div className="flex items-center gap-4 text-sm tracking-wide">
         
-        {/* Search Bar */}
-        <div className="relative">
+        {/* Desktop Search */}
+        <div className="hidden xl:block relative">
           <input
             type="text"
             placeholder="Search..."
@@ -57,31 +62,181 @@ const Navbar = () => {
           </span>
         </div>
 
-        {/* Wishlist */}
-        <div className="flex items-center gap-1 cursor-pointer hover:text-[#b58b50] transition-colors duration-300">
-          <FaHeart size={12} />
-          <span>WISHLIST</span>
+        {/* Mobile Search Icon */}
+        <button
+          className="xl:hidden"
+          onClick={() => setShowSearch(!showSearch)}
+        >
+          <FaSearch size={16} />
+        </button>
+
+        {/* Wishlist + Cart + User (Desktop) */}
+        <div className="hidden xl:flex items-center gap-4">
+          <div className="flex items-center gap-1 cursor-pointer hover:text-[#b58b50] transition-colors duration-300">
+            <FaHeart size={12} />
+            <span>WISHLIST</span>
+          </div>
+          <div className="flex items-center gap-1 cursor-pointer hover:text-[#b58b50] transition-colors duration-300">
+            <FaShoppingCart size={12} />
+            <span>CART</span>
+          </div>
+          <div className="flex items-center gap-2 hover:text-[#b58b50] transition-colors duration-300">
+            <FaUser size={12} />
+            <NavLink to="/login">LOGIN</NavLink>
+            <span className="text-gray-400">OR</span>
+            <NavLink to="/signup">SIGNUP</NavLink>
+          </div>
         </div>
 
-        {/* Cart */}
-        <div className="flex items-center gap-1 cursor-pointer hover:text-[#b58b50] transition-colors duration-300">
-          <FaShoppingCart size={12} />
-          <span>CART</span>
-        </div>
-
-        {/* Login/Signup */}
-        <div className="flex items-center gap-2 hover:text-[#b58b50] transition-colors duration-300">
-          <FaUser size={12} />
-          <NavLink to="/login">LOGIN</NavLink>
-          <span className="text-gray-400">OR</span>
-          <NavLink to="/signup">SIGNUP</NavLink>
-        </div>
+        {/* Mobile Menu Button */}
+        <button
+          className="lg:hidden"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <FaTimes size={18} /> : <FaBars size={18} />}
+        </button>
       </div>
+
+      {/* Mobile Dropdown */}
+      {menuOpen && (
+        <div className="absolute top-16 left-0 w-full bg-black flex flex-col items-center gap-4 py-4 lg:hidden">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.name}
+              to={item.path}
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) =>
+                `transition-colors duration-300 hover:text-[#b58b50] ${
+                  isActive ? 'text-[#b58b50]' : ''
+                }`
+              }
+            >
+              {item.name}
+            </NavLink>
+          ))}
+
+          {/* Mobile Wishlist, Cart, Login */}
+          <div className="flex flex-col items-center gap-4 mt-4 text-sm">
+            <div className="flex items-center gap-1 cursor-pointer hover:text-[#b58b50]">
+              <FaHeart size={14} />
+              <span>WISHLIST</span>
+            </div>
+            <div className="flex items-center gap-1 cursor-pointer hover:text-[#b58b50]">
+              <FaShoppingCart size={14} />
+              <span>CART</span>
+            </div>
+            <div className="flex items-center gap-2 hover:text-[#b58b50]">
+              <FaUser size={14} />
+              <NavLink to="/login" onClick={() => setMenuOpen(false)}>LOGIN</NavLink>
+              <span className="text-gray-400">OR</span>
+              <NavLink to="/signup" onClick={() => setMenuOpen(false)}>SIGNUP</NavLink>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Search */}
+      {showSearch && (
+        <div className="absolute top-16 left-0 w-full bg-black p-4 xl:hidden">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="w-full px-3 py-2 rounded-md bg-white text-black text-sm focus:outline-none focus:ring-2 focus:ring-[#b58b50]"
+          />
+        </div>
+      )}
     </nav>
   );
 };
 
 export default Navbar;
+
+
+
+// import React from 'react';
+// import { NavLink } from 'react-router-dom';
+// import { FaHeart, FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
+// import logo from '../assets/logo.jpg';
+
+// const Navbar = () => {
+//   const navItems = [
+//     { name: 'Home', path: '/' },
+//     { name: 'Brands', path: '/brands' },
+//     { name: 'Men', path: '/men' },
+//     { name: 'Women', path: '/women' },
+//     { name: 'Kids', path: '/kids' }
+//   ];
+
+//   return (
+//     <nav className="flex justify-between items-center px-5 py-2 bg-black text-white fixed top-0 w-full z-50 shadow-md">
+      
+//       {/* Left: Logo and Brand Name */}
+//       <div className="flex items-center gap-3">
+//         <img src={logo} alt="Timeless Elegance Logo" className="h-12 w-auto object-contain" />
+//         <h1 className="text-xl font-serif font-bold tracking-widest text-white">
+//           Timeless <span className="text-[#b58b50]">Elegance</span>
+//         </h1>
+//       </div>
+
+//       {/* Middle: Navigation Links */}
+//       <ul className="flex gap-5 font-medium text-sm tracking-wide">
+//         {navItems.map((item) => (
+//           <li key={item.name}>
+//             <NavLink
+//               to={item.path}
+//               end
+//               className={({ isActive }) =>
+//                 `relative transition-colors duration-300 hover:text-[#b58b50] ${
+//                   isActive ? 'text-[#b58b50] after:content-[""] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-full after:bg-[#b58b50]' : ''
+//                 }`
+//               }
+//             >
+//               {item.name}
+//             </NavLink>
+//           </li>
+//         ))}
+//       </ul>
+
+//       {/* Right: Search, Wishlist, Cart, Login/Signup */}
+//       <div className="flex items-center gap-4 text-sm tracking-wide">
+        
+//         {/* Search Bar */}
+//         <div className="relative">
+//           <input
+//             type="text"
+//             placeholder="Search..."
+//             className="pl-3 pr-8 py-1 rounded-md bg-white text-black text-sm focus:outline-none focus:ring-2 focus:ring-[#b58b50]"
+//           />
+//           <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-black cursor-pointer">
+//             <FaSearch size={14} />
+//           </span>
+//         </div>
+
+//         {/* Wishlist */}
+//         <div className="flex items-center gap-1 cursor-pointer hover:text-[#b58b50] transition-colors duration-300">
+//           <FaHeart size={12} />
+//           <span>WISHLIST</span>
+//         </div>
+
+//         {/* Cart */}
+//         <div className="flex items-center gap-1 cursor-pointer hover:text-[#b58b50] transition-colors duration-300">
+//           <FaShoppingCart size={12} />
+//           <span>CART</span>
+//         </div>
+
+//         {/* Login/Signup */}
+//         <div className="flex items-center gap-2 hover:text-[#b58b50] transition-colors duration-300">
+//           <FaUser size={12} />
+//           <NavLink to="/login">LOGIN</NavLink>
+//           <span className="text-gray-400">OR</span>
+//           <NavLink to="/signup">SIGNUP</NavLink>
+//         </div>
+//       </div>
+//     </nav>
+//   );
+// };
+
+// export default Navbar;
 
 
 // // src/components/Navbar.jsx

@@ -8,7 +8,7 @@ import RegisterForm from './pages/RegisterForm';
 import MenWatchesPage from './pages/MenWatchesPage';
 import WomenWatches from './pages/WomenWatches';
 import KidsPage from './pages/KidsPage';  // ✅ Corrected import
-
+import AllProductsPage from './pages/AllProductsPage';
 function App() {
   const heroRef = useRef(null);
 
@@ -35,7 +35,8 @@ function App() {
           <Route path="/signup" element={<RegisterForm />} />
           <Route path="/Men" element={<MenWatchesPage />} />
           <Route path="/Women" element={<WomenWatches />} />
-          <Route path="/kids" element={<KidsPage />} /> {/* ✅ Corrected JSX usage */}
+          <Route path="/kids" element={<KidsPage />} />
+      <Route path="/all-products" element={<AllProductsPage />} />{/* ✅ Corrected JSX usage */}
         </Routes>
       </div>
     </Router>

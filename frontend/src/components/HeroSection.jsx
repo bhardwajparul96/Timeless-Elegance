@@ -1,22 +1,23 @@
-
+// src/components/HeroSection.jsx
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import bgImage from '../assets/bg.jpg';
 
 const HeroSection = () => {
+  const navigate = useNavigate();
   const [coords, setCoords] = useState({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
 
   useEffect(() => {
     const handleMouseMove = (e) => {
       setCoords({ x: e.clientX, y: e.clientY });
     };
-
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   return (
     <section className="relative w-full h-screen overflow-hidden">
-      {/* Darkened Background Image */}
+      {/* Background */}
       <div
         className="absolute inset-0 z-0"
         style={{
@@ -27,7 +28,7 @@ const HeroSection = () => {
         }}
       />
 
-      {/* Yellowish Radial Cursor Light */}
+      {/* Cursor Light Effect */}
       <div
         className="absolute inset-0 z-10 pointer-events-none"
         style={{
@@ -42,8 +43,6 @@ const HeroSection = () => {
         }}
       />
 
-      {/* Content */}
-      
       {/* Content */}
       <div className="relative z-20 flex flex-col justify-center h-full px-6 md:px-20 text-white max-w-3xl mx-auto text-center">
         <h1 className="text-4xl md:text-5xl font-light leading-snug">
@@ -62,7 +61,10 @@ const HeroSection = () => {
           <button className="px-6 py-3 bg-[#b88a4a] text-white font-medium rounded-md hover:bg-[#a3783b] transition duration-300">
             Shop Now
           </button>
-          <button className="px-6 py-3 border border-white text-white font-medium rounded-md hover:bg-white hover:text-black transition duration-300">
+          <button
+            onClick={() => navigate('/all-products')}
+            className="px-6 py-3 border border-white text-white font-medium rounded-md hover:bg-white hover:text-black transition duration-300"
+          >
             View Collection
           </button>
         </div>
@@ -72,6 +74,80 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
+// import React, { useEffect, useState } from 'react';
+// import bgImage from '../assets/bg.jpg';
+
+// const HeroSection = () => {
+//   const [coords, setCoords] = useState({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+
+//   useEffect(() => {
+//     const handleMouseMove = (e) => {
+//       setCoords({ x: e.clientX, y: e.clientY });
+//     };
+
+//     window.addEventListener('mousemove', handleMouseMove);
+//     return () => window.removeEventListener('mousemove', handleMouseMove);
+//   }, []);
+
+//   return (
+//     <section className="relative w-full h-screen overflow-hidden">
+//       {/* Darkened Background Image */}
+//       <div
+//         className="absolute inset-0 z-0"
+//         style={{
+//           backgroundImage: `url(${bgImage})`,
+//           backgroundSize: 'cover',
+//           backgroundPosition: 'left center',
+//           filter: 'brightness(0.4) contrast(1.1)',
+//         }}
+//       />
+
+//       {/* Yellowish Radial Cursor Light */}
+//       <div
+//         className="absolute inset-0 z-10 pointer-events-none"
+//         style={{
+//           background: `radial-gradient(
+//             circle at ${coords.x}px ${coords.y}px,
+//             rgba(255, 221, 102, 0.2) 0px,
+//             rgba(255, 221, 102, 0.1) 150px,
+//             transparent 300px
+//           )`,
+//           mixBlendMode: 'screen',
+//           transition: 'all 0.2s ease-out',
+//         }}
+//       />
+
+//       {/* Content */}
+      
+//       {/* Content */}
+//       <div className="relative z-20 flex flex-col justify-center h-full px-6 md:px-20 text-white max-w-3xl mx-auto text-center">
+//         <h1 className="text-4xl md:text-5xl font-light leading-snug">
+//           Discover <span className="text-[#D4AF37] font-semibold">Timeless Luxury</span><br />
+//           <span className="font-semibold">Exclusive Branded Watches</span>
+//         </h1>
+
+//         <p className="mt-6 text-lg font-light text-gray-300">
+//           Explore our carefully curated collection <br />
+//           of the finest luxury watches from the world’s <br />
+//           most prestigious brands. Crafted for those who <br />
+//           value precision, style, and elegance
+//         </p>
+
+//         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+//           <button className="px-6 py-3 bg-[#b88a4a] text-white font-medium rounded-md hover:bg-[#a3783b] transition duration-300">
+//             Shop Now
+//           </button>
+//           <button className="px-6 py-3 border border-white text-white font-medium rounded-md hover:bg-white hover:text-black transition duration-300">
+//             View Collection
+//           </button>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default HeroSection;
 
 
 
